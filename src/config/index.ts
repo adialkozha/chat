@@ -9,7 +9,7 @@ export enum ConfigRaw {
 }
 
 export const configPattern = () => ({
-    port: process.env[ConfigRaw.DB_PORT],
+    port: process.env[ConfigRaw.PORT],
     db: {
         host: process.env[ConfigRaw.DB_HOST],
         port: process.env[ConfigRaw.DB_PORT],
