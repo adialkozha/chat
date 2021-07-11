@@ -5,6 +5,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { UserEntity } from './user.entity';
 import { comparePassword } from '@app/shared/utils';
 import { CreateUserDto } from './dto/create-user.dto';
+import { JwtPayload } from '../auth/interfaces/payload.interface'
 @Injectable()
 export class UserService {
     constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>) { }
@@ -21,31 +22,32 @@ export class UserService {
     }
 
     async findByLogin(loginDto: LoginUserDto): Promise<UserEntity> {
-        const user = await this.userRepository.findOne(loginDto.username)
+        const user = await this.userRepository.findOne({username: loginDto.username});
         if (!user) {
-            throw new UnauthorizedException('User not found')
+            throw new UnauthorizedException('User not found');
         }
 
         const areEqual = await comparePassword(user.password, loginDto.password)
         if (!areEqual) {
             throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED)
         }
-        return user
+        return user;
     }
 
-    async findByPayload(username: string): Promise<UserEntity> {
-        return await this.findOne({where: { username }})
+    async findByPayload({username}: any): Promise<UserEntity> {
+        return this.findOne({where: {username}});
     }
 
     async create (createUserDto:CreateUserDto): Promise<UserEntity>{
-        const user = await this.userRepository.findOne(createUserDto.username)
-        if (user && user.email === createUserDto.email) {
-            throw new HttpException('User already exists', HttpStatus.BAD_REQUEST)
+        const user = await this.userRepository.findOne({username: createUserDto.username});
+        if (user) {
+            throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
         }
 
-        const newUser: UserEntity = new UserEntity()
-        Object.assign(newUser,createUserDto)
-        return await this.userRepository.save(newUser);
+
+        const newUser: UserEntity = new UserEntity();
+        Object.assign(newUser,createUserDto);
+        return this.userRepository.save(newUser);
     }
 }
 

@@ -1,6 +1,6 @@
-import { ConfigService } from '@nestjs/config'
+import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-require('dotenv').config()
+require('dotenv').config();
 class OrmConfig {
     constructor (private readonly configService:ConfigService) {}
     public ormconfig: TypeOrmModuleOptions ={ 
