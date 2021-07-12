@@ -2,7 +2,7 @@ import { CreateUserDto } from '@app/user/dto/create-user.dto';
 import { LoginUserDto } from '@app/user/dto/login-user.dto';
 import { UserService } from '@app/user/user.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import { RegistrationStatus } from './interfaces/registrattion-status.interface';
 import { LoginStatus } from './interfaces/login-status.interface'
 import { UserEntity } from '@app/user/user.entity';

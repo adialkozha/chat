@@ -27,9 +27,9 @@ export class UserService {
             throw new UnauthorizedException('User not found');
         }
 
-        const areEqual = await comparePassword(user.password, loginDto.password)
+        const areEqual = await comparePassword(user.password, loginDto.password);
         if (!areEqual) {
-            throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED)
+            throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
         }
         return user;
     }
@@ -43,8 +43,6 @@ export class UserService {
         if (user) {
             throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
         }
-
-
         const newUser: UserEntity = new UserEntity();
         Object.assign(newUser,createUserDto);
         return this.userRepository.save(newUser);
